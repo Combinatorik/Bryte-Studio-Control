@@ -1,0 +1,1 @@
+documentation build Animations.js OptionsBar.js AbstractGUIObjects.js SendManager.js Send.js AbstractEventHandlers.js Observable.js ReaperComms.js Track.js TrackManager.js Transport.js -f html -o docs

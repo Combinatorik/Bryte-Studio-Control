@@ -1,0 +1,828 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialogify</title>
+    <meta name="description" content="A javascript plugin for creating dialog/lightbox, implements with HTMLDialogElement.">
+    <meta name="thumbnail" content="img/screenshot1.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
+    <style>
+        .content{padding:40px 56px;}
+        .mdl-switch{margin:8px;}
+        td:first-child{font-weight: 600;}
+
+        .custom-close {top: 0px !important;right: 0px !important;}
+        .custom-close img {width: 36px !important;height: 36px !important;opacity: 1 !important;}
+
+        .custom-content {background-color:gold;border-radius: 12px !important;margin: 12px !important;}
+    </style>
+</head>
+<body>
+    <div class="mdl-layout mdl-layout--fixed-header mdl-layout--fixed-drawer mdl-js-layout mdl-color--grey-200">
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <div class="mdl-layout-spacer"></div>
+                <nav class="mdl-navigation">
+                    <a class="github-button" href="https://github.com/OneupNetwork/dialogify" data-size="large" data-show-count="true" aria-label="Star OneupNetwork/dialogify on GitHub">Star</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Dialogify</span>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="#gettingstarted">Getting Started</a>
+                <a class="mdl-navigation__link" href="#disablecssinjection">Disable Css Injection</a>
+                <a class="mdl-navigation__link" href="#dialogify">Dialogify</a>
+                <a class="mdl-navigation__link" href="#globalconfig">Global Config</a>
+                <a class="mdl-navigation__link" href="#dialogify.alert">Dialogify.alert</a>
+                <a class="mdl-navigation__link" href="#dialogify.confirm">Dialogify.confirm</a>
+                <a class="mdl-navigation__link" href="#dialogify.prompt">Dialogify.prompt</a>
+                <a class="mdl-navigation__link" href="#dialogify.closeall">Dialogify.closeAll</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+            <div class="mdl-grid">
+                <div class="mdl-layout-spacer"></div>
+                <div class="content mdl-color--white mdl-shadow--4dp mdl-color-text--grey-800 mdl-cell mdl-cell--10-col">
+
+                    <div class="mdl-grid">
+                        <div class="mdl-layout-spacer"></div>
+                        <div class="mdl-cell mdl-cell--10-col">
+                            <a name="gettingstarted"></a>
+                            <h4 class="mdl-typeography--headline">Getting Started</h4>
+                            <p>Include script in your HTML document.</p>
+                            <pre><code class="html">&lt;script src="path/to/jquery.js"&gt;&lt;/script&gt;
+&lt;script src="path/to/dialogify.min.js"&gt;&lt;/script&gt;</code></pre>
+                        </div>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+
+                    <div class="mdl-grid">
+                        <div class="mdl-layout-spacer"></div>
+                        <div class="mdl-cell mdl-cell--10-col">
+                            <a name="disablecssinjection"></a>
+                            <h4 class="mdl-typeography--headline">Disable Css Injection</h4>
+                            <p>所有樣式跟圖片都塞進 js 了，不用另外載入 css<br>
+                               要自訂樣式的話（像是暗色版），將 id="dialogifyCss" 的 css 放在 js 前<br>
+                               不然 inject css 是 inline 形式，優先權比 css 檔案高</p>
+                            <pre><code class="html">&lt;link href="path/to/dialogify.css" id="dialogifyCss" rel="stylesheet" type="text/css"&gt;</code></pre>
+                        </div>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+
+                    <div class="mdl-grid">
+                        <div class="mdl-layout-spacer"></div>
+                        <div class="mdl-cell mdl-cell--10-col">
+                            <a name="dialogify"></a>
+                            <h4 class="mdl-typeography--headline">Dialogify</h4>
+                            <pre><code class="javascript">let dialogify = new Dialogify(source, dialogOptions)
+    .title(title)
+    .buttons([button, buttonHtml...], buttonOptions)
+    .on('show', showCallback)
+    .on('close', closeCallback)
+    .on('cancel', cancelCallback);
+
+dialogify.show();
+dialogify.showModal();
+dialogify.close();
+dialogify.isOpen();</code></pre>
+
+<h6>source: string</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">source</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                id selector | ajax url | html<br>
+                id selector: # 開頭的字串，e.g. '#dialogContent'<br>
+                ajax url: ajaxPrefix 開頭的字串，e.g. '/ajax/dialogContent.html'
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6>dialogOptions: {}, optional</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">size</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                Dialogify.SIZE_LARGE | class name<br>
+                設定 SIZE_LARGE 後會套用較寬的燈箱樣式<br>
+                也可直接指定 class name
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">closable</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                true | false<br>
+                預設 true，設定 false 後沒右上關閉鈕<br>
+                modal 燈箱無法按 esc 或點背景關閉
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">fixed</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                true | false<br>
+                預設 true，設定 false 後燈箱會跟頁面捲動
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">dialog</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                object<br>
+                設定燈箱樣式，詳見下面的 dialogOptions.dialog
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">closeButton</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                object<br>
+                設定關閉鈕樣式，詳見下面的 dialogOptions.closeButton
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">useDialogForm</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                true | false<br>
+                預設 true，設定 false 後燈箱中不會有 &lt;form method="dialog"&gt;&lt;/form&gt;<br>
+                此設定下 BUTTON_PRIMARY 要自己關閉燈箱
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">ajaxPrefix</td>
+            <td class="mdl-data-table__cell--non-numeric">string<br>預設 &quot;/ajax/&quot;</td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">ajaxData</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                object | query string<br>
+                ajax 載入資料時，要傳給網址的參數
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">ajaxComplete</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                function<br>
+                ajax 載入完成時呼叫，this 是 dialogify object
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6>dialogOptions.dialog: {}</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">style</td>
+            <td class="mdl-data-table__cell--non-numeric">object<br>設定最外層燈箱樣式，同 jQuery .css() 設定規則</td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">className</td>
+            <td class="mdl-data-table__cell--non-numeric">string<br>設定最外層燈箱 class name</td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">contentStyle</td>
+            <td class="mdl-data-table__cell--non-numeric">object<br>設定內容樣式，同 jQuery .css() 設定規則</td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">contentClassName</td>
+            <td class="mdl-data-table__cell--non-numeric">string<br>設定內容 class name</td>
+        </tr>
+    </tbody>
+</table>
+
+<h6>dialogOptions.closeButton: {}</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">image</td>
+            <td class="mdl-data-table__cell--non-numeric">string<br>設定關閉鈕圖片</td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">style</td>
+            <td class="mdl-data-table__cell--non-numeric">object<br>設定關閉鈕樣式，同 jQuery .css() 設定規則</td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">className</td>
+            <td class="mdl-data-table__cell--non-numeric">string<br>設定關閉鈕 class name</td>
+        </tr>
+    </tbody>
+</table>
+
+<h6>title: string</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">title</td>
+            <td class="mdl-data-table__cell--non-numeric">string<br>設定標題，可用 html</td>
+        </tr>
+    </tbody>
+</table>
+
+<h6>button: {}</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">type</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                Dialogify.BUTTON_PRIMARY | Dialogify.BUTTON_DANGER | class name<br>
+                按鈕樣式，可直接指定 class name，primary 按鈕預設按了之後會關閉燈箱
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">text</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                string<br>
+                按鈕文字，預設 &quot;關閉&quot;
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">click</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                function<br>
+                按鈕動作，this 是 dialogify object
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">focused</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                true | false<br>
+                預設 false，true 的話會加上 autofocus 屬性
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">disabled</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                true | false<br>
+                預設 false，是否 disable button
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">id</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                string<br>
+                指定按鈕 id，若設定會以此值當 $buttonList 的 key
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6>buttonHtml: string</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">buttonHtml</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                string<br>
+                直接把 html append 到燈箱當按鈕<br>
+                若有 id 屬性，在 $buttonList 中會以 id 當 key
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6>buttonOptions: {}, optional</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">position</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                Dialogify.BUTTON_CENTER | Dialogify.BUTTON_LEFT | class name<br>
+                設定按鈕位置，預設靠右，也可直接指定 class name
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6>showCallback, closeCallback, cancelCallback: function</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">callback</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                function<br>
+                相對應的時機呼叫的 function，this 是 dialogify object<br>
+                cancel 只有按右上關閉、點背景或按 esc 會呼叫
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6>dialogify method & public variable</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">.show()</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                顯示燈箱，無背景遮罩
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">.showModal()</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                顯示 Modal 燈箱，有背景遮罩強調燈箱
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">.close()</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                關閉燈箱
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">.isOpen()</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                return true or false<br>
+                回傳燈箱是否開啟中
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">.$content</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                燈箱內容的 jQuery object
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">.$buttonList</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                燈箱按鈕陣列，依照 buttons 設定的順序，由左至右，若有 id 則以 id 當 key<br>
+                值則是按鈕的 jQuery object，另外有兩個 jQuery method 給按鈕使用<br>
+                $buttonList[0].enable()<br>
+                $buttonList[0].disable()
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+                        </div>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+
+                    <div class="mdl-grid">
+                        <div class="mdl-layout-spacer"></div>
+                        <div class="mdl-cell mdl-cell--10-col">
+                            <a name="globalconfig"></a>
+                            <h4 class="mdl-typeography--headline">Global Config (optional)</h4>
+                            <p>全域設定，需寫在載入 dialogify.js 之前，沒特別需求可不設定</p>
+                            <pre><code class="html">&lt;script&gt;window.dialogifyConfig = {locale: 'en_US'};&lt;/script&gt;
+&lt;script src="path/to/dialogify.min.js"&gt;&lt;/script&gt;</code></pre>
+
+<h6>dialogifyConfig: {}</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">locale</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                'zh_TW' (default) | 'zh_CN' | 'en_US'
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">dialog</td>
+            <td class="mdl-data-table__cell--non-numeric">同 dialogOptions.dialog，會影響全部燈箱</td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">closeButton</td>
+            <td class="mdl-data-table__cell--non-numeric">同 dialogOptions.closeButton，會影響全部燈箱</td>
+        </tr>
+    </tbody>
+</table>
+
+                        </div>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+
+                    <div class="mdl-grid">
+                        <div class="mdl-layout-spacer"></div>
+                        <div class="mdl-cell mdl-cell--10-col">
+                            <h5 class="mdl-typeography--headline">Example - Normal Dialogify</h5>
+                            <button id="demo1" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">try it</button>
+                            <pre><code class="html">&lt;script type="text/template" id="demo1_template"&gt;
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a sapien lacus. Ut a eros quis lacus auctor aliquet eu.
+    &lt;input type="text" class="text-field" placeholder="title"&gt;
+    &lt;textarea class="text-field" placeholder="content"&gt;&lt;/textarea&gt;
+&lt;/script&gt;
+&lt;script&gt;
+// 用 text/template 放燈箱的 html，瀏覽器會略過未知的 script type
+// 比在元素上加 display:none 效能來得好
+new Dialogify('#demo1_template')
+    .title('Dialogify')
+    .buttons([
+        {
+            text: '取消',
+            click: function(e){
+                console.log('cancel click');
+                this.close();
+            }
+        },
+        {
+            text: '確定',
+            type: Dialogify.BUTTON_PRIMARY,
+            click: function(e){
+                console.log('ok click, title value: ' + this.$content.find('input.text-field').val());
+            }
+        }
+    ])
+    .show();
+&lt;/script&gt;</code></pre>
+                        </div>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+
+                    <div class="mdl-grid">
+                        <div class="mdl-layout-spacer"></div>
+                        <div class="mdl-cell mdl-cell--10-col">
+                            <h5 class="mdl-typeography--headline">Example - Modal Dialogify</h5>
+                            <button id="demo2" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">try it</button>
+                            <pre><code class="javascript">let html = '&lt;b&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a sapien lacus. Ut a eros quis lacus auctor aliquet eu.&lt;/b&gt;';
+let dialogify = new Dialogify(html)
+    .title('Modal Dialogify')
+    .buttons([
+        {
+            type: Dialogify.BUTTON_DANGER,
+            click: function(e){
+                console.log('danger-style button click');
+                this.close();
+            }
+        },
+        '&lt;a class="btn btn-insert" href="javascript:;"&gt;other action&lt;/a&gt;'
+    ], {position: Dialogify.BUTTON_CENTER});
+
+dialogify
+    .on('show', function(){
+        this.$buttonList[1].disable();
+        console.log('show: ' + this.isOpen());
+    })
+    .on('close', function(){
+        console.log('close: ' + this.isOpen());
+    })
+    .on('cancel', function(){
+        console.log('cancel');
+    });
+
+dialogify.showModal();</code></pre>
+                        </div>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+
+                    <div class="mdl-grid">
+                        <div class="mdl-layout-spacer"></div>
+                        <div class="mdl-cell mdl-cell--10-col">
+                            <h5 class="mdl-typeography--headline">Example - Ajax Dialogify</h5>
+                            <button id="demo3" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">try it</button>
+                            <pre><code class="javascript">var options = {
+    ajaxPrefix: '',
+    ajaxComplete: function(){
+        console.log('ajax complete');
+        this.buttons([{
+            type: Dialogify.BUTTON_PRIMARY
+        }]);
+    }
+};
+
+new Dialogify('./ajax.html', options)
+    .title('Ajax Dialogify')
+    .show();</code></pre>
+                        </div>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+
+                    <div class="mdl-grid">
+                        <div class="mdl-layout-spacer"></div>
+                        <div class="mdl-cell mdl-cell--10-col">
+                            <h5 class="mdl-typeography--headline">Example - Style Dialogify</h5>
+                            <button id="demo7" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">try it</button>
+                            <pre><code class="javascript">let options = {
+    dialog: {
+        style: {'background-color': 'transparent', 'box-shadow': 'none'},
+        contentClassName: 'custom-content'
+    },
+    closeButton: {
+        image: 'img/x.png',
+        className: 'custom-close'
+    }
+};
+
+let html = '&lt;b&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a sapien lacus. Ut a eros quis lacus auctor aliquet eu.&lt;/b&gt;';
+new Dialogify(html, options)
+    .title('Style Dialogify')
+    .buttons([
+        {
+            type: Dialogify.BUTTON_PRIMARY
+        }
+    ])
+    .show();</code></pre>
+                        </div>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+
+                    <div class="mdl-grid">
+                        <div class="mdl-layout-spacer"></div>
+                        <div class="mdl-cell mdl-cell--10-col">
+                            <a name="dialogify.alert"></a>
+                            <h4 class="mdl-typeography--headline">Dialogify.alert(message, options)</h4>
+
+<h6>message: string</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">message</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                html text<br>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6>options: {}, optional</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">close</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                function<br>
+                關閉時呼叫，this 是 dialogify object，沒特別動作可省略
+            </td>
+        </tr>
+    </tbody>
+</table><br>
+
+                            <button id="demo4" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">try it</button>
+                            <pre><code class="javascript">Dialogify.alert('Alert &lt;i&gt;Message&lt;/i&gt;', {
+    close: function(){
+        console.log('alert close');
+    }
+});</code></pre>
+                        </div>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+
+                    <div class="mdl-grid">
+                        <div class="mdl-layout-spacer"></div>
+                        <div class="mdl-cell mdl-cell--10-col">
+                            <a name="dialogify.confirm"></a>
+                            <h4 class="mdl-typeography--headline">Dialogify.confirm(message, options)</h4>
+
+<h6>message: string</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">message</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                html text<br>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6>options: {}, optional</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">ok</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                function<br>
+                按確定時呼叫，this 是 dialogify object，沒特別動作可省略
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">cancel</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                function<br>
+                按取消時呼叫，this 是 dialogify object，沒特別動作可省略
+            </td>
+        </tr>
+    </tbody>
+</table><br>
+
+                            <button id="demo5" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">try it</button>
+                            <pre><code class="javascript">Dialogify.confirm('Do you like Dialogify ?', {
+    ok: function(){
+        Dialogify.alert('Yes, I do');
+    },
+    cancel: function(){
+        Dialogify.alert('No, I don\'t');
+    }
+});</code></pre>
+                        </div>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+
+                    <div class="mdl-grid">
+                        <div class="mdl-layout-spacer"></div>
+                        <div class="mdl-cell mdl-cell--10-col">
+                            <a name="dialogify.prompt"></a>
+                            <h4 class="mdl-typeography--headline">Dialogify.prompt(message, options)</h4>
+
+<h6>message: string</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">message</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                html text<br>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h6>options: {}, optional</h6>
+<table class="mdl-data-table mdl-js-data-table">
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">placeholder</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                string<br>
+                輸入框的 placeholder，可省略
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">ok</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                function<br>
+                按確定時呼叫，this 是 dialogify object，沒特別動作可省略
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">cancel</td>
+            <td class="mdl-data-table__cell--non-numeric">
+                function<br>
+                按取消時呼叫，this 是 dialogify object，沒特別動作可省略
+            </td>
+        </tr>
+    </tbody>
+</table><br>
+
+                            <button id="demo6" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">try it</button>
+                            <pre><code class="javascript">Dialogify.prompt('What\'s your name ?', {
+    placeholder: 'Enter your name',
+    ok: function(val){
+        Dialogify.alert('Hi! ' + val);
+    },
+    cancel: function(){
+        Dialogify.alert('canceled');
+    }
+});</code></pre>
+                        </div>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+
+
+                    <div class="mdl-grid">
+                        <div class="mdl-layout-spacer"></div>
+                        <div class="mdl-cell mdl-cell--10-col">
+                            <a name="dialogify.closeall"></a>
+                            <h4 class="mdl-typeography--headline">Dialogify.closeAll()</h4>
+                            <p>關閉所有 dialogify 燈箱</p>
+                        </div>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+
+                </div>
+                <div class="mdl-layout-spacer"></div>
+            </div>
+        </main>
+    </div>
+
+
+    <script type="text/template" id="demo1_template">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a sapien lacus. Ut a eros quis lacus auctor aliquet eu.
+        <input type="text" class="text-field" placeholder="title">
+        <textarea class="text-field" placeholder="content"></textarea>
+    </script>
+
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="js/dialogify.min.js"></script>
+    <script>
+        $('#demo1').click(function(e){
+            new Dialogify('#demo1_template')
+                .title('Dialogify')
+                .buttons([
+                    {
+                        text: 'Cancel',
+                        click: function(e){
+                            console.log('cancel click');
+                            this.close();
+                        }
+                    },
+                    {
+                        text: 'Okay',
+                        type: Dialogify.BUTTON_PRIMARY,
+                        click: function(e){
+                            console.log('ok click, title value: ' + this.$content.find('input.text-field').val());
+                        }
+                    }
+                ])
+                .show();
+        });
+
+        $('#demo2').click(function(){
+            let html = '<b>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a sapien lacus. Ut a eros quis lacus auctor aliquet eu.</b>';
+            let dialogify = new Dialogify(html)
+                .title('Modal Dialogify')
+                .buttons([
+                    {
+                        type: Dialogify.BUTTON_DANGER,
+                        click: function(e){
+                            console.log('danger-style button click');
+                            this.close();
+                        }
+                    },
+                    '<a class="btn btn-insert" href="javascript:;">other action</a>'
+                ], {position: Dialogify.BUTTON_CENTER});
+
+            dialogify
+                .on('show', function(){
+                    this.$buttonList[1].disable();
+                    console.log('show: ' + this.isOpen());
+                })
+                .on('close', function(){
+                    console.log('close: ' + this.isOpen());
+                })
+                .on('cancel', function(){
+                    console.log('cancel');
+                });
+
+            dialogify.showModal();
+        });
+
+        $('#demo3').click(function(){
+            let options = {
+                ajaxPrefix: '',
+                ajaxComplete: function(){
+                    console.log('ajax complete');
+                    this.buttons([{
+                        type: Dialogify.BUTTON_PRIMARY
+                    }]);
+                }
+            };
+
+            new Dialogify('./ajax.html', options)
+                .title('Ajax Dialogify')
+                .show();
+        });
+
+        $('#demo7').click(function(){
+            let options = {
+                dialog: {
+                    style: {'background-color': 'transparent', 'box-shadow': 'none'},
+                    contentClassName: 'custom-content'
+                },
+                closeButton: {
+                    image: 'img/x.png',
+                    className: 'custom-close'
+                }
+            };
+
+            let html = '<b>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a sapien lacus. Ut a eros quis lacus auctor aliquet eu.</b>';
+            new Dialogify(html, options)
+                .title('Style Dialogify')
+                .buttons([
+                    {
+                        type: Dialogify.BUTTON_PRIMARY
+                    }
+                ])
+                .show();
+        });
+
+        $('#demo4').click(function(){
+            Dialogify.alert('Alert <i>Message</i>', {
+                close: function(){
+                    console.log('alert close');
+                }
+            });
+        });
+
+        $('#demo5').click(function(){
+            Dialogify.confirm('Do you like Dialogify ?', {
+                ok: function(){
+                    Dialogify.alert('Yes, I do');
+                },
+                cancel: function(){
+                    Dialogify.alert('No, I don\'t');
+                }
+            });
+        });
+
+        $('#demo6').click(function(){
+            Dialogify.prompt('What\'s your name ?', {
+                placeholder: 'Enter your name',
+                ok: function(val){
+                    Dialogify.alert('Hi! ' + val);
+                },
+                cancel: function(){
+                    Dialogify.alert('canceled');
+                }
+            });
+        });
+
+        hljs.initHighlightingOnLoad();
+    </script>
+</body>
+</html>
