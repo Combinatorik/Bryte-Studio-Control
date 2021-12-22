@@ -245,7 +245,11 @@ class Send
 			this.trackColor = color;
 			
 			if (this.enabled)
+			{
 				this.fader.style.fill = color;
+				this.sendTitleText.style.fill = color;
+				this.sDbText.style.fill=color;
+			}
 		}
 	}
 	
