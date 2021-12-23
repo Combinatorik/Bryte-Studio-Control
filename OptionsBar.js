@@ -1,3 +1,5 @@
+'use strict';	
+
 /**
 * The OptionsBar object is a high-level object that initializes the options bar at the top of the page, registers continuous metronome and snap button button updates from Reaper, and begins listening to ReaperComms for updates, updating the bar whenever it recieves the appropriate update string. 
 */

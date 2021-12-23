@@ -1,3 +1,5 @@
+'use strict';	
+
 //To do:
 //1.  Implement track registration
 //2.  Implenent update on track update

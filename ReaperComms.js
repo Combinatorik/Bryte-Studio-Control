@@ -1,6 +1,5 @@
 //To do:
 /*
-	1.  Find something more efficient than XMLHTTP
 	3.  High level recurring update interface
 	4.  Implement GetSetMediaTrackInfo interface
 */
@@ -72,7 +71,8 @@ class ReaperComms
 			
 			//Send initial test request.
 			this.g_wwr_req.open("GET","/_/" + ";", true);
-			this.g_wwr_req.send(null);				
+			//this.g_wwr_req.open("GET","http://192.168.2.116:8085/", true);
+			this.g_wwr_req.send(null);
 			
 			//Store the object.
 			ReaperComms.instance = this;
@@ -366,6 +366,38 @@ class ReaperComms
 	jumpToNextMarker()
 	{
 		this.wwr_req(40173);
+	}
+
+	/**
+	* Tells Reaper to move the current playback position to the next recorded item. 
+	*/	
+	jumpToPrevClip()
+	{
+		this.wwr_req(40416);
+	}
+
+	/**
+	* Tells Reaper to move the current playback position to the previous recorded item. 
+	*/	
+	jumpToNextClip()
+	{
+		this.wwr_req(40417);
+	}
+	
+	/**
+	* Tells Reaper to move the current playback position to the very beggining of the project. 
+	*/
+	jumpToStartOfProject()
+	{
+		this.wwr_req(40042);
+	}
+	
+	/**
+	* Tells Reaper to move the current playback position to the very end of the project. 
+	*/
+	jumpToEndOfProject()
+	{
+		this.wwr_req(40043);
 	}
 	
 	/**

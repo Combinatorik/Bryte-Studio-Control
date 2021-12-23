@@ -1,3 +1,5 @@
+'use strict';	
+
 /**
 * The Abstract Animation Engine class defines an interface for a unified animation engine independent of a specific implementation.
 */

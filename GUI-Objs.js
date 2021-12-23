@@ -1,3 +1,5 @@
+'use strict';	
+
 /**
 * This object builds a button that has two states.  It automatically hides and displays SVG elements based on its state.
 */
