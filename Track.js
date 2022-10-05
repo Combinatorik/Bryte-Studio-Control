@@ -1192,8 +1192,8 @@ class TrackRenameEventHandler
 		if (!trackText)
 			throw "Could not find track name control in track div"
 		
-		trackText.addEventListener("click", this);
-		trackText.addEventListener("mousedown", this);
+		trackText.addEventListener("click", (e) => {this.handleEvent(e)});
+		trackText.addEventListener("mousedown", (e) => {this.handleEvent(e)});
 		
 		this.comms = new ReaperComms();
 		this.trackID = AbstractTrack.extractIDFromDiv(trackDiv);

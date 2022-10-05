@@ -322,11 +322,6 @@
 		<div>
 			<svg id="nextPrev" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%"
 				 height="100%" viewBox="0 0 318.9 87.8" xml:space="preserve">
-				<polygon id="markerSecBg" fill="#262626" points="164.3,12.5 159,17.8 153.8,12.5 70.4,12.5 70.4,79.2 153.8,79.2 159,74 
-					164.3,79.2 248.3,79.2 248.3,12.5 "/>
-				<rect id="markerStrip" x="70.4" y="50.4" fill="#2D2D2D" width="177.9" height="15"/>
-				<rect id="regionStrip" x="70.4" y="20.2" fill="#2D2D2D" width="177.9" height="15"/>
-				<path id="locTriangles" fill="#666666" d="M152.4,87.8l6.6-6.6l6.6,6.6H152.4z M152.4,4l6.6,6.6l6.6-6.6H152.4z"/>
 				<style type="text/css">
 					.st0{fill:none;stroke:#828282;stroke-miterlimit:10;}
 					.st3{font-family:'Open Sans';text-anchor:middle;}
@@ -406,41 +401,61 @@
 						</g>
 					</g>
 				</g>
-				<g id="nextButton" class="button">
-					<path class="shadow" opacity="0.15" d="M248.3,83.5h29.6c17.8,0,32.3-14.4,32.3-32.3v-5.6h-64.6v35
-						C245.6,82.4,246.8,83.5,248.3,83.5z"/>
-					<path fill="#1A1A1A" d="M248.3,12.5H278c18.4,0,33.4,15,33.4,33.4s-15,33.4-33.4,33.4h-29.7c-2,0-3.7-1.6-3.7-3.7V16.2
-						C244.6,14.1,246.3,12.5,248.3,12.5L248.3,12.5z"/>
+				
+				<g id="projectEndButton" class="button">
+					<path class="shadow" opacity="0.15" d="M 228.9 83.5 h 49 c 17.8 0 32.3 -14.4 32.3 -32.3 v -5.6 h -84 v 35 c 0 1.8 1.2 2.9 2.7 2.9 z"/>
+					<path fill="#1A1A1A" d="M 248.3 12.5 H 278 c 18.4 0 33.4 15 33.4 33.4 s -15 33.4 -33.4 33.4 h -49.1 c -2 0 -3.7 -1.6 -3.7 -3.7 V 16.2 c -0 -2.1 1.7 -3.7 3.7 -3.7 L 248.3 12.5 z"/>
 
 					<linearGradient id="mrg1" gradientUnits="userSpaceOnUse" x1="-1856.4718" y1="405.6207" x2="-1856.4718" y2="469.644" gradientTransform="matrix(-1 0 0 -1 -1578.4503 483.5079)">
 						<stop  offset="0" style="stop-color:#262626"/>
 						<stop  offset="1" style="stop-color:#404040"/>
 					</linearGradient>
-					<path fill="url(#mrg1)" d="M278,77.9c17.7,0,32-14.3,32-32s-14.3-32-32-32h-29.7c-1.2,0-2.3,1.1-2.3,2.3v59.4
-						c0,1.4,1.1,2.3,2.3,2.3H278z"/>
-					<path id="iconEnd" visibility="hidden" fill="#828282" d="M279.4,46l-17.4-11.3v22.6L279.4,46z M281.4,34.7h5v22.6h-5V34.7z"/>
-					<path id="iconNext" fill="#828282" d="M279.4,46l-17.4-11.3v22.6L279.4,46z M278.7,34.7h10.4l-5.2,5L278.7,34.7z
-						 M281.4,42.2h5v15h-5V42.2z"/>
-					<path class="mouseover" visibility="hidden" opacity="0.05" fill="#FFFFFF" d="M278,77.9c17.7,0,32-14.3,32-32s-14.3-32-32-32h-29.7
-						c-1.2,0-2.3,1.1-2.3,2.3v59.4c0,1.4,1.1,2.3,2.3,2.3H278z"/>
+					<path fill="url(#mrg1)" d="M 278 77.9 c 17.7 0 32 -14.3 32 -32 s -14.3 -32 -32 -32 h -49.1 c -1.2 0 -2.3 1.1 -2.3 2.3 v 59.4 c 0 1.4 1.1 2.3 2.3 2.3 H 278 z"/>
+					<path id="iconProjectEnd" visibility="hidden" fill="#828282" d="M279.4,46l-17.4-11.3v22.6L279.4,46z M281.4,34.7h5v22.6h-5V34.7z"/>
+					<path id="iconProjectEnd" fill="#828282" d="M 260 46 l -17.4 -11.3 v 22.6 l 17.4 -11.3 z M 279.4 46 l -17.4 -11.3 v 22.6 L 279.4 46 z M 281.4 34.7 h 5 v 22.6 h -5 V 42.2 z"/>
+					<path class="mouseover" visibility="hidden" opacity="0.05" fill="#FFFFFF" d="M 278 77.9 c 17.7 0 32 -14.3 32 -32 s -14.3 -32 -32 -32 h -49.1 c -1.2 0 -2.3 1.1 -2.3 2.3 v 59.4 c 0 1.4 1.1 2.3 2.3 2.3 H 278 z"/>
 				</g>
-				<g id="prevButton" class="button">
-					<path class="shadow" opacity="0.15" d="M70.4,83.5H40.8C23,83.5,8.5,69,8.5,51.2v-5.6h64.6v35
-						C73.1,82.4,71.9,83.5,70.4,83.5z"/>
-					<path fill="#1A1A1A" d="M70.4,12.5H40.7c-18.4,0-33.4,15-33.4,33.4s15,33.4,33.4,33.4h29.7c2,0,3.7-1.6,3.7-3.7V16.2
-						C74.1,14.1,72.4,12.5,70.4,12.5L70.4,12.5z"/>
+				
+				<g id="prevButton" class="button" transform="matrix(0.9 0 0 0.9 64 5)">
+					<path class="shadow" opacity="0.15" d="M 89.8 83.5 h -49 c -1.2 0 -2.7 -1.5 -2.7 -2.9 v -35 h 64.8 v 35 c 0 1.8 -1.2 2.9 -2.7 2.9 z"/>
+					<path fill="#1A1A1A" d="M 70.4 12.5 h -29.7 c -1.7 0 -3.7 2 -3.7 3.7 v 59.4 c 0 1.7 2 3.7 3.7 3.7 h 59.4 c 2 0 3.7 -1.6 3.7 -3.7 v -59.4 c 0 -2.1 -1.7 -3.7 -3.7 -3.7 l 0 0 z"/>
 
 						<linearGradient id="mrg2" gradientUnits="userSpaceOnUse" x1="-436.7075" y1="405.6207" x2="-436.7075" y2="469.644" gradientTransform="matrix(1 0 0 -1 477.3987 483.5079)">
 						<stop  offset="0" style="stop-color:#262626"/>
 						<stop  offset="1" style="stop-color:#404040"/>
 					</linearGradient>
-					<path fill="url(#mrg2)" d="M40.7,77.9c-17.7,0-32-14.3-32-32s14.3-32,32-32h29.7c1.2,0,2.3,1.1,2.3,2.3v59.4
-						c0,1.4-1.1,2.3-2.3,2.3H40.7z"/>
-					<path id="iconHome" visibility="hidden" fill="#828282" d="M39.3,46l17.4-11.3v22.6L39.3,46z M37.3,34.7h-5v22.6h5V34.7z"/>
-					<path id="iconPrev" fill="#828282" d="M39.3,46l17.4-11.3v22.6L39.3,46z M40,34.7H29.7l5.2,5L40,34.7z M37.3,42.2h-5v15
-						h5V42.2z"/>
-					<path class="mouseover" visibility="hidden" opacity="0.05" fill="#FFFFFF" d="M40.7,77.9c-17.7,0-32-14.3-32-32s14.3-32,32-32h29.7
-						c1.2,0,2.3,1.1,2.3,2.3v59.4c0,1.4-1.1,2.3-2.3,2.3H40.7z"/>
+					<path fill="url(#mrg2)" d="M 40.7 77.9 c -1.4 0 -2.3 -0.9 -2.3 -2.3 v -59.4 c 0 -1.4 0.9 -2.3 2.3 -2.3 h 59.4 c 1.2 0 2.3 1.1 2.3 2.3 v 59.4 c 0 1.4 -1.1 2.3 -2.3 2.3 h -59.4 z"/>
+					<path id="iconPrev" visibility="hidden" fill="#828282" d="M39.3,46l17.4-11.3v22.6L39.3,46z M37.3,34.7h-5v22.6h5V34.7z"/>
+					<path id="iconPrev" fill="#828282" d="M 58.7 46 l 17.4 -11.3 v 22.6 l -17.4 -11.3 z M 39.3 46 l 17.4 -11.3 v 22.6 l -17.4 -11.3 z z" transform="matrix(1 0 0 1 10 0)"/>
+					<path class="mouseover" visibility="hidden" opacity="0.05" fill="#FFFFFF" d="M 40.7 77.9 c -1.4 0 -2.3 -0.9 -2.3 -2.3 v -59.4 c 0 -1.4 0.9 -2.3 2.3 -2.3 h 59.4 c 1.2 0 2.3 1.1 2.3 2.3 v 59.4 c 0 1.4 -1.1 2.3 -2.3 2.3 h -59.4 z"/>
+				</g>
+
+				<g id="nextButton" class="button" transform="matrix(0.9 0 0 0.9 128 5)">
+					<path class="shadow" opacity="0.15" d="M 89.8 83.5 h -49 c -1.2 0 -2.7 -1.5 -2.7 -2.9 v -35 h 64.8 v 35 c 0 1.8 -1.2 2.9 -2.7 2.9 z"/>
+					<path fill="#1A1A1A" d="M 70.4 12.5 h -29.7 c -1.7 0 -3.7 2 -3.7 3.7 v 59.4 c 0 1.7 2 3.7 3.7 3.7 h 59.4 c 2 0 3.7 -1.6 3.7 -3.7 v -59.4 c 0 -2.1 -1.7 -3.7 -3.7 -3.7 l 0 0 z"/>
+
+						<linearGradient id="mrg2" gradientUnits="userSpaceOnUse" x1="-436.7075" y1="405.6207" x2="-436.7075" y2="469.644" gradientTransform="matrix(1 0 0 -1 477.3987 483.5079)">
+						<stop  offset="0" style="stop-color:#262626"/>
+						<stop  offset="1" style="stop-color:#404040"/>
+					</linearGradient>
+					<path fill="url(#mrg2)" d="M 40.7 77.9 c -1.4 0 -2.3 -0.9 -2.3 -2.3 v -59.4 c 0 -1.4 0.9 -2.3 2.3 -2.3 h 59.4 c 1.2 0 2.3 1.1 2.3 2.3 v 59.4 c 0 1.4 -1.1 2.3 -2.3 2.3 h -59.4 z"/>
+					<path id="iconPrev" visibility="hidden" fill="#828282" d="M39.3,46l17.4-11.3v22.6L39.3,46z M37.3,34.7h-5v22.6h5V34.7z"/>
+					<path id="iconPrev" fill="#828282" d="M 58.7 46 l -17.4 -11.3 v 22.6 l 17.4 -11.3 z M 39.3 46 l -17.4 -11.3 v 22.6 l 17.4 -11.3 z z" transform="matrix(1 0 0 1 30 0)"/>
+					<path class="mouseover" visibility="hidden" opacity="0.05" fill="#FFFFFF" d="M 40.7 77.9 c -1.4 0 -2.3 -0.9 -2.3 -2.3 v -59.4 c 0 -1.4 0.9 -2.3 2.3 -2.3 h 59.4 c 1.2 0 2.3 1.1 2.3 2.3 v 59.4 c 0 1.4 -1.1 2.3 -2.3 2.3 h -59.4 z"/>
+				</g>
+				
+				<g id="projectStartButton" class="button">
+					<path class="shadow" opacity="0.15" d="M 89.8 83.5 h -49 c -17.8 0 -32.3 -14.5 -32.3 -32.3 v -5.6 h 84 v 35 c 0 1.8 -1.2 2.9 -2.7 2.9 z"/>
+					<path fill="#1A1A1A" d="M 70.4 12.5 H 40.7 c -18.4 0 -33.4 15 -33.4 33.4 s 15 33.4 33.4 33.4 h 49.1 c 2 0 3.7 -1.6 3.7 -3.7 V 16.2 c -0 -2.1 -1.7 -3.7 -3.7 -3.7 l 0 0 z"/>
+
+						<linearGradient id="mrg2" gradientUnits="userSpaceOnUse" x1="-436.7075" y1="405.6207" x2="-436.7075" y2="469.644" gradientTransform="matrix(1 0 0 -1 477.3987 483.5079)">
+						<stop  offset="0" style="stop-color:#262626"/>
+						<stop  offset="1" style="stop-color:#404040"/>
+					</linearGradient>
+					<path fill="url(#mrg2)" d="M 40.7 77.9 c -17.7 0 -32 -14.3 -32 -32 s 14.3 -32 32 -32 h 49.1 c 1.2 0 2.3 1.1 2.3 2.3 v 59.4 c 0 1.4 -1.1 2.3 -2.3 2.3 H 40.7 z"/>
+					<path id="iconProjectStart" visibility="hidden" fill="#828282" d="M39.3,46l17.4-11.3v22.6L39.3,46z M37.3,34.7h-5v22.6h5V34.7z"/>
+					<path id="iconProjectStart" fill="#828282" d="M 58.7 46 l 17.4 -11.3 v 22.6 l -17.4 -11.3 z M 39.3 46 l 17.4 -11.3 v 22.6 l -17.4 -11.3 z M 37.3 34.7 h -5 v 22.6 h 5 V 42.2 z"/>
+					<path class="mouseover" visibility="hidden" opacity="0.05" fill="#FFFFFF" d="M 40.7 77.9 c -17.7 0 -32 -14.3 -32 -32 s 14.3 -32 32 -32 h 49.6 c 1.2 0 2.3 1.1 2.3 2.3 v 59.4 c 0 1.4 -1.1 2.3 -2.3 2.3 H 40.7 z"/>
 				</g>
 				<g id="dropMarker" class="button" visibility="hidden"> 
 					<rect x="145.2" y="40.7" fill-opacity="0.25" stroke="#828282" stroke-dasharray="2, 4" stroke-miterlimit="10" rx="3" ry="3" width="28.4" height="28.4"/>

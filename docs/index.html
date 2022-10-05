@@ -525,6 +525,30 @@
                       </a></li>
                       
                       <li><a
+                        href='#reapercommsjumptoprevclip'
+                        class='regular pre-open'>
+                        #jumpToPrevClip
+                      </a></li>
+                      
+                      <li><a
+                        href='#reapercommsjumptonextclip'
+                        class='regular pre-open'>
+                        #jumpToNextClip
+                      </a></li>
+                      
+                      <li><a
+                        href='#reapercommsjumptostartofproject'
+                        class='regular pre-open'>
+                        #jumpToStartOfProject
+                      </a></li>
+                      
+                      <li><a
+                        href='#reapercommsjumptoendofproject'
+                        class='regular pre-open'>
+                        #jumpToEndOfProject
+                      </a></li>
+                      
+                      <li><a
                         href='#reapercommscreatemarkeratplaybackpos'
                         class='regular pre-open'>
                         #createMarkerAtPlaybackPos
@@ -1291,6 +1315,12 @@
                         href='#timekeeperplaystate'
                         class='regular pre-open'>
                         #playstate
+                      </a></li>
+                      
+                      <li><a
+                        href='#timekeeperrepeat'
+                        class='regular pre-open'>
+                        #repeat
                       </a></li>
                       
                       <li><a
@@ -4503,7 +4533,7 @@ This is a low-level communication function.  For ease use one of the other high-
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>interval</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>
-            = <code>this.#g_wwr_timer_freq</code>)</code>
+            = <code>this.g_wwr_timer_freq</code>)</code>
 	    is the number of miliseconds between each send of the command.  Minimum time is whatever the internal ReaperComms minimum was set to in the constructor.
 
           </div>
@@ -5286,6 +5316,202 @@ This is a low-level communication function.  For ease use one of the other high-
   <p>Tells Reaper to move the current playback position to the next marker.</p>
 
     <div class='pre p1 fill-light mt0'>jumpToNextMarker()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='reapercommsjumptoprevclip'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>jumpToPrevClip()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Tells Reaper to move the current playback position to the next recorded item.</p>
+
+    <div class='pre p1 fill-light mt0'>jumpToPrevClip()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='reapercommsjumptonextclip'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>jumpToNextClip()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Tells Reaper to move the current playback position to the previous recorded item.</p>
+
+    <div class='pre p1 fill-light mt0'>jumpToNextClip()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='reapercommsjumptostartofproject'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>jumpToStartOfProject()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Tells Reaper to move the current playback position to the very beggining of the project.</p>
+
+    <div class='pre p1 fill-light mt0'>jumpToStartOfProject()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='reapercommsjumptoendofproject'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>jumpToEndOfProject()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Tells Reaper to move the current playback position to the very end of the project.</p>
+
+    <div class='pre p1 fill-light mt0'>jumpToEndOfProject()</div>
   
   
 
@@ -11141,6 +11367,55 @@ This is a low-level communication function.  For ease use one of the other high-
   <p>Gets the play state.</p>
 
     <div class='pre p1 fill-light mt0'>playstate</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='timekeeperrepeat'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>repeat</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Gets the repeat state.</p>
+
+    <div class='pre p1 fill-light mt0'>repeat</div>
   
   
 
