@@ -2,10 +2,7 @@
 
 /************ Global Variables ************/
 //GUI objects
-var comms;
-var tlist;
-var optionsBar;
-var transport;
+var controller;
 
 /************ Main Code ************/
 function init()
@@ -28,12 +25,5 @@ function init()
 	
 	//Init GUI objects
 	//Set max FPS to 60.
-	var rtime = 1000/60;
-	comms = new ReaperComms(rtime);
-	tlist = new TrackManager(rtime);          //Auto-registers with ReaperComms as a listener
-	optionsBar = new OptionsBar(rtime);       //Auto-registers with ReaperComms as a listener
-	transport = new Transport(tlist, rtime);  //Auto-registers with ReaperComms as a listener	
-	
-	//run reaper comms
-	comms.startComms(); 
+	controller = new ReaperController(60);
 }

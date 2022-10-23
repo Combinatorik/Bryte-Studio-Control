@@ -10380,7 +10380,7 @@ This is a low-level communication function.  For ease use one of the other high-
 
   <p>Singleon object.  The TrackManager object creates and manages tracks.  It registers with ReaperComms as a listener and automatically updates whenever called by Reaper, so it is a self-initializing and updating object.</p>
 
-    <div class='pre p1 fill-light mt0'>new TrackManager(refreshRate: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new TrackManager(refreshRate: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, useMasterTrack: any)</div>
   
   
 
@@ -10401,6 +10401,15 @@ This is a low-level communication function.  For ease use one of the other high-
             = <code>100</code>)</code>
 	    is the time in MS that the track manager requests tracks be updated from Reaper.
 
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>useMasterTrack</span> <code class='quiet'>(any
+            = <code>1</code>)</code>
+	    
           </div>
           
         </div>
@@ -12348,7 +12357,7 @@ This is a low-level communication function.  For ease use one of the other high-
 
   <p>Rec arm counter.  Keeps track of the number of channels record armed and displays it on screen.</p>
 
-    <div class='pre p1 fill-light mt0'>new RecArmCounter(trackList: <a href="#trackmanager">TrackManager</a>)</div>
+    <div class='pre p1 fill-light mt0'>new RecArmCounter()</div>
   
   
     <p>
@@ -12366,20 +12375,6 @@ This is a low-level communication function.  For ease use one of the other high-
   
   
 
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>trackList</span> <code class='quiet'>(<a href="#trackmanager">TrackManager</a>)</code>
-	    is a reference to a track manager object.
-
-          </div>
-          
-        </div>
-      
-    </div>
   
 
   

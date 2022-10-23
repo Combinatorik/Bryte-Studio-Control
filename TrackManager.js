@@ -18,8 +18,8 @@ class TrackManager
 	/**
 	* @param {number} refreshRate is the time in MS that the track manager requests tracks be updated from Reaper.
 	*/
-	constructor(refreshRate=100)
-	{	
+	constructor(refreshRate=100, useMasterTrack=1)
+	{
 		if (!TrackManager.instance)
 		{
 			TrackManager.instance = this;
@@ -29,13 +29,17 @@ class TrackManager
 			if (!this.allTracksDiv)
 				throw "Could not find track storage div";
 			
-			this.observers = new Observable();
-			var transport = new Transport(this, refreshRate);
-			var recArmCounter = transport.recArmCounter;
 			//Build object.
-			var masterTrack = new MasterTrack(recArmCounter);
-			var mdiv = document.getElementById("Track 0");
-			this.tracks.push(masterTrack);
+			this.observers = new Observable();
+			
+			if (useMasterTrack != 0)
+			{
+				var transport = new Transport(this, refreshRate);
+				var recArmCounter = transport.recArmCounter;
+				var masterTrack = new MasterTrack(recArmCounter);
+				var mdiv = document.getElementById("Track 0");
+				this.tracks.push(masterTrack);
+			}
 			
 			//Register as listener to ReaperComms.
 			var comms = new ReaperComms();

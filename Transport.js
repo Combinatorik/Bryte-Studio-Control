@@ -1204,18 +1204,13 @@ class RecArmCounter extends ToggleButton
 	//State variables
 	armedCount=0;
 	prevArmedCount=-1;
-	enabled=0;
-	tracksRecArmedArray = [];
-	tracksRegistered = 0;
-	observers;
+	colorSet;
 	
 	//DOM references
 	armedTextCtrl;
 	armedCountCtrl;
 	
-	/**
-	* @param {TrackManager} trackList is a reference to a track manager object.
-	*/
+	//Constructor
 	constructor()
 	{
 		//Set up DOM references.
@@ -1224,31 +1219,11 @@ class RecArmCounter extends ToggleButton
 		super([text, count], null, 1);
 		this.armedTextCtrl = text;
 		this.armedCountCtrl = count;
+		this.colorSet = 0;
 		
-		//Next let's register this object as a listener to the TrackManager object
-		var trackList = new TrackManager();
-		trackList.registerListener((trackManager) => {this.updateTrackCount(trackManager);});
-		
-		//Now let's update the dispay
-		this.observers = new Observable();
-	}
-	
-	/**
-	* This function takes in a function and stores it internally to be called whenever the time is updated.
-	* @param {Object} listener is a function to store and call.
-	*/
-	registerListener(listener)
-	{
-		this.observers.registerListener(listener);
-	}
-	
-	/**
-	* This function takes in a function and unregisters it from the internal update listerner database.
-	* @param {Object} listener is a function to unregister.
-	*/
-	unregisterListener(listener)
-	{
-		this.observers.unregisterListener(listener);
+		//Next let's register this object as a listener to the ReaperComms and count the number of rec armed objects whenever updated
+		var comms = new ReaperComms();
+		comms.registerListener((toks) => {this.update(toks);});
 	}
 	
 	/**
@@ -1260,54 +1235,39 @@ class RecArmCounter extends ToggleButton
 	}
 	
 	/*  Private Methods  */
-	update(track)
+	update(tokens)
 	{
-		//if (!(track instanceof AbstractTrack))
-		//	throw "Object reference must be a track";
-		while (this.tracksRecArmedArray.length < track.id)
-			this.tracksRecArmedArray.push(0);
-		
-		this.tracksRecArmedArray[track.id] = track.recArmed;
-		this.armedCount=0;
-		
-		for(var x=0; x<this.tracksRecArmedArray.length; x++)
-			this.armedCount += this.tracksRecArmedArray[x];
+		this.armedCount = 0;
+		var x;
+		var cmd;
+		var trackNum;
+		for (x=0;x<tokens.length;x++)
+		{
+			cmd=tokens.cmd(x);
+			if (cmd[0] == "TRACK")
+			{
+				trackNum = parseInt(cmd[1]);
+				if (trackNum > 0 && Track.recArmedFlagSet(cmd[3]))
+					this.armedCount++;
+			}
+		}
 		
 		this.updateDisplay();
-	}
-	
-	updateTrackCount(trackManager)
-	{
-		if (!(trackManager instanceof TrackManager))
-			throw "Parameter not an instance of a TrackManager object";
-		
-		//If new tracks have been created let's register this object as a listener to them.
-		if (this.tracksRegistered < trackManager.trackCount)
-		{
-			for (var x=this.tracksRegistered; x<trackManager.trackCount; x++)
-			{
-				var track = trackManager.getTrackByID(x);
-				track.registerListener((t) => {this.update(t);});
-			}
-			
-			this.tracksRegistered = trackManager.trackCount;
-		}
 	}
 	
 	updateDisplay()
 	{
 		if (this.armedCount != this.prevArmedCount)
 		{
-			//Notify listeners
-			this.observers.notifyListeners(this);
 			//Update armed count display.
 			this.armedCountCtrl.textContent = this.armedCount;
 			
 			//We only need to change colors if we go down to zero or went up from zero.
-			if (this.armedCount==0 || this.prevArmedCount==0)
+			if (this.armedCount==0 || this.prevArmedCount==0 || this.colorSet==0)
 			{
 				this.armedCountCtrl.setAttributeNS(null, "fill", ((this.armedCount==0)?"#5D3729":"#00D87F"));
 				this.armedTextCtrl.setAttributeNS(null, "fill", ((this.armedCount==0)?"#5D3729":"#00D87F"));
+				this.colorSet = 1;
 			}
 		
 			this.prevArmedCount = this.armedCount;

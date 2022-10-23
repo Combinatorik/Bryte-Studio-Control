@@ -374,6 +374,14 @@ class AbstractTrack
 		return clone;
 	}
 	
+	/**
+	* Static method.  Determines if a Rec Armed flag is set from a Reaper parameter byte list.
+	* @param {Object} Reaper parameters list.
+	*/
+	static recArmedFlagSet(flags)
+	{
+		return (flags&64) ? 1 : 0;
+	}
 	
 	
 	/*  Private methods  */
@@ -824,7 +832,7 @@ class MasterTrack extends AbstractTrack
 	masterRecArmButton;
 	soloClear;
 	
-	constructor(recArmCounter)
+	constructor()
 	{
 		if (!MasterTrack.instance)
 		{
@@ -871,7 +879,7 @@ class MasterTrack extends AbstractTrack
 			
 			//Call parent constructor.
 			super(masterTrack);
-			this.masterRecArmButton = new MasterRecArmButton(recArmCounter);
+			this.masterRecArmButton = new MasterRecArmButton();
 			this.soloClear = new SoloClearButton();
 			
 			MasterTrack.instance = this;
@@ -982,11 +990,8 @@ class MasterRecArmButton extends ToggleButton
 	tracks;
 	tracksArmed = 0;
 	
-	constructor(recArmCounter)
-	{
-		if (!(recArmCounter instanceof RecArmCounter))
-			throw "recArmCounter parameter must be an instance of a RecArmCounter object";
-		
+	constructor()
+	{		
 		//Find on/off display elements
 		var masterRecArmOff = document.getElementById("recArmClearOff");
 		var masterRecArmOn = document.getElementById("recArmClearOn");
@@ -1000,7 +1005,6 @@ class MasterRecArmButton extends ToggleButton
 		document.getElementById("RecarmClear").onclick = () => {this.recArmToggle()};
 		
 		//register as a listener
-		recArmCounter.registerListener( (counter) => {this.countUpdated(counter)} );
 		this.tracks.registerListener((tlist) => {this.tlistUpdated(tlist)} );
 	}
 
@@ -1123,9 +1127,6 @@ class TrackFaderEventHandler extends AbstractMovableObjectEventHandler
 		if (trackDiv == null)
 			throw "Invalid track component DOM object reference";
 		
-		if (!(comms instanceof ReaperComms))
-			throw "Invalid Reaper Comms object reference";
-		
 		//Init object
 		var fader = trackDiv.getElementsByClassName("fader")[0];
 		if (fader == null)
@@ -1143,6 +1144,10 @@ class TrackFaderEventHandler extends AbstractMovableObjectEventHandler
 		this.slider = slider;
 		this.comms = new ReaperComms();
 		this.id = AbstractTrack.extractIDFromDiv(trackDiv);
+		
+		//Make sure Reaper comms is good		
+		if (!(this.comms instanceof ReaperComms))
+			throw "Invalid Reaper Comms object reference";
 	}
 	
 	mouseMoveHandler(event)

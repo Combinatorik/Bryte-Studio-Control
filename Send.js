@@ -105,7 +105,7 @@ class Send
 		{
 			this.enabled = 1;
 			this.sendDiv.style.display = "block";
-			comms.wwr_req_recur("GET/TRACK/" + this.trackID + "/SEND/" + this.sendID + ";");
+			this.comms.wwr_req_recur("GET/TRACK/" + this.trackID + "/SEND/" + this.sendID + ";");
 		}
 	}
 
@@ -325,9 +325,6 @@ class SendFaderEventHandler extends AbstractMovableObjectEventHandler
 		if (sendDiv == null)
 			throw "Invalid send component DOM object reference";
 		
-		if (!(comms instanceof ReaperComms))
-			throw "Invalid Reaper Comms object reference";
-		
 		//Init object
 		var fader = sendDiv.getElementsByClassName("sendThumb")[0];
 		if (fader == null)
@@ -353,6 +350,10 @@ class SendFaderEventHandler extends AbstractMovableObjectEventHandler
 		//Get send and send numbers.
 		this.parentId = Send.getSendDivParentID(sendDiv);
 		this.sendId = Send.getSendDivID(sendDiv);
+		
+		//Make sure Reaper object is built
+		if (!(this.comms instanceof ReaperComms))
+			throw "Invalid Reaper Comms object reference";
 	}
 	
 	mouseMoveHandler(event)
