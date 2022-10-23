@@ -18,7 +18,7 @@ class TrackManager
 	/**
 	* @param {number} refreshRate is the time in MS that the track manager requests tracks be updated from Reaper.
 	*/
-	constructor(refreshRate=100, useMasterTrack=1)
+	constructor(refreshRate=100, useMasterTrack=1, tracksToControl=null)
 	{
 		if (!TrackManager.instance)
 		{
@@ -34,9 +34,7 @@ class TrackManager
 			
 			if (useMasterTrack != 0)
 			{
-				var transport = new Transport(this, refreshRate);
-				var recArmCounter = transport.recArmCounter;
-				var masterTrack = new MasterTrack(recArmCounter);
+				var masterTrack = new MasterTrack();
 				var mdiv = document.getElementById("Track 0");
 				this.tracks.push(masterTrack);
 			}

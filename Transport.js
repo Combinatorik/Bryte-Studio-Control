@@ -32,14 +32,11 @@ class Transport
 	* @param {TrackManager} trackList is a reference to the track list object.
 	* @param {number} refreshTime is the time in ms that Transport requests ReaperComms to be updated.
 	*/
-	constructor(trackList, refreshTime=100)
+	constructor(refreshTime=100)
 	{
 		if (!Transport.instance)
 		{
 			//Validate params
-			if (!(trackList instanceof TrackManager))
-				throw "trackList parameter must be a TrackManager object";
-			
 			if (refreshTime < 0)
 				throw "Refresh time must be a positive value";
 			
@@ -78,7 +75,7 @@ class Transport
 			document.getElementById("prevButton").onclick = () => {this.comms.jumpToPrevClip();};
 			
 			//Object components
-			this.recarmCounter = new RecArmCounter(trackList);
+			this.recarmCounter = new RecArmCounter();
 			this.jogger = new Jogger(refreshTime);
 			this.timeDisplay = new TimeDisplay(this.jogger);
 			this.recordbutton = new RecordButton(this.recarmCounter);
