@@ -9,6 +9,7 @@ class TrackManager
 	tracks;
 	immutableTracks;
 	observers;
+	tracksToDisplay;
 	
 	//DOM object references.
 	allTracksDiv;
@@ -18,7 +19,7 @@ class TrackManager
 	/**
 	* @param {number} refreshRate is the time in MS that the track manager requests tracks be updated from Reaper.
 	*/
-	constructor(refreshRate=100, useMasterTrack=1, tracksToControl=null)
+	constructor(refreshRate=100, useMasterTrack=1, tracksToDisplay=null)
 	{
 		if (!TrackManager.instance)
 		{
@@ -43,6 +44,24 @@ class TrackManager
 			var comms = new ReaperComms();
 			comms.wwr_req_recur(ReaperComms.trackCmd(), refreshRate);
 			comms.registerListener((toks) => {this.updateTracks(toks);});
+			
+			//Process tracks to display list
+			if (!Array.isArray(tracksToDisplay) && tracksToDisplay != null)
+				throw "Tracks list not an array"
+			
+			if (tracksToDisplay != null)
+			{
+				var x;
+				for (x=0; x<tracksToDisplay.length; x++)
+					if (!Number.isInteger(tracksToDisplay[x]))
+						throw "Tracks list must be integers"
+				
+				this.tracksToDisplay = tracksToDisplay.sort();
+			}
+			else
+			{
+				this.tracksToDisplay = tracksToDisplay;
+			}
 		}
 		
 		return TrackManager.instance;
@@ -160,8 +179,12 @@ class TrackManager
 				this.trackCount = count;
 				for (var t = 0; t < count; t++)
 				{
-					//Reset and hide channel
-					this.tracks[t].enable();
+					//Display only the channels we want
+					//var s = this.tracksToDisplay.indexOf(t)
+					if (t==0 || this.tracksToDisplay == null || this.tracksToDisplay.indexOf(t) >= 0)
+						this.tracks[t].enable();
+					else
+						this.tracks[t].disable();
 				}
 			}
 			

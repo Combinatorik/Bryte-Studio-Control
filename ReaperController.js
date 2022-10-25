@@ -19,17 +19,12 @@ class ReaperController
 	* @param {number} toggles transport object creation.
 	*/
 	constructor(fps=60, useTrackList=1, useOptionBar=1, useTransport=1)
-	{
-		// //We're not ready to hand over external control over internal components just yet
-		// useTrackList=1;
-		// useOptionBar=1;
-		// useTransport=1;
-		
+	{		
 		//Create objects
 		//All object auto-registers with ReaperComms as a listener
 		this.comms = new ReaperComms(1000/fps);
 		if (useTrackList != 0)
-			this.tlist = new TrackManager(1000/fps);          
+			this.tlist = new TrackManager(1000/fps, 1, [2,3,4,5,6,7,8,9,10]);          
 		if (useOptionBar != 0)
 			this.optionsBar = new OptionsBar(1000/fps); 
 		if (useTransport != 0)

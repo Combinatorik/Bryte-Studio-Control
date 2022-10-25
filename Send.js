@@ -118,7 +118,7 @@ class Send
 		{
 			this.enabled = 0;
 			this.sendDiv.style.display = "none";
-			comms.wwr_req_recur_cancel("GET/TRACK/" + this.trackID + "/SEND/" + this.sendID + ";");
+			this.comms.wwr_req_recur_cancel("GET/TRACK/" + this.trackID + "/SEND/" + this.sendID + ";");
 		}
 	}
 	
@@ -383,6 +383,6 @@ class SendFaderEventHandler extends AbstractMovableObjectEventHandler
 
         var sendOutput = (offsetX  / sendThumbTrackWidth);
         var sendOutputdB = Math.pow(sendOutput, 4) * 4;
-        comms.setSendVol(this.parentId, this.sendId, sendOutputdB);
+        this.comms.setSendVol(this.parentId, this.sendId, sendOutputdB);
 	}
 };

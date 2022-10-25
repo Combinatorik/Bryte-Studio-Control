@@ -23,6 +23,8 @@ class AbstractTrack
 	recieveCount=0;
 	icon;
 	
+	recArmEnabled = 1;
+	
 	//Track sends collection.
 	sends = null;
 	
@@ -131,6 +133,8 @@ class AbstractTrack
 		
 		//Build immutable track object
 		this.immutableTrack = new ImmutableTrack(this);
+		
+		this.disableRecArm();
 	}
 	
 	/**
@@ -191,6 +195,26 @@ class AbstractTrack
 	hide()
 	{
 		this.trackDiv.style.display = "none";
+	}
+	
+	/**
+	* This method enables the rec arm button.
+	*/
+	enableRecArm()
+	{
+		this.recArmEnabled = 1;
+		this.recarmOffButton.style.display = "block"; 
+		this.recarmOnButton.style.display = "block";
+	}
+	
+	/**
+	* This method disables the rec arm button.
+	*/
+	disableRecArm()
+	{
+		this.recArmEnabled = 0;
+		this.recarmOffButton.style.display = "none"; 
+		this.recarmOnButton.style.display = "none";
 	}
 	
 	/**
@@ -518,7 +542,7 @@ class AbstractTrack
 	{
 		var updated = 0;
 		buttonsStr = (buttonsStr&64) ? 1 : 0;
-		if((buttonsStr) != this.recArmed)
+		if(this.recArmEnabled && (buttonsStr) != this.recArmed)
 		{	
 			this.recArmed = buttonsStr;
 			updated = 1;
