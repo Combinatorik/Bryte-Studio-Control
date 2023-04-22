@@ -133,8 +133,6 @@ class AbstractTrack
 		
 		//Build immutable track object
 		this.immutableTrack = new ImmutableTrack(this);
-		
-		this.disableRecArm();
 	}
 	
 	/**
