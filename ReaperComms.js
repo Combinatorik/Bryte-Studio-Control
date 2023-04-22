@@ -17,12 +17,10 @@ class ReaperComms
 	g_wwr_timer_freq;
 	g_wwr_req_list;
 	g_wwr_req_recur;
-	g_wwr_errcnt;
 	observers;
 	running;
+	udpateRecieved;
 	g_wwr_req;
-	g_wwr_timer;
-	g_wwr_timer2;
 	
 	//Command storage objects
 	commandCollection;
@@ -41,7 +39,6 @@ class ReaperComms
 			this.g_wwr_timer_freq = minUpdate;
 			this.g_wwr_req_list = "";
 			this.g_wwr_req_recur = new Array();
-			this.g_wwr_errcnt = 0;
 			this.observers = new Observable();
 			this.running = 0;
 			this.commandCollection = new CommandCollection();
@@ -67,11 +64,9 @@ class ReaperComms
 			//Start the one-off reaper command send interval.
 			//Setup events.
 			this.g_wwr_req.onreadystatechange = () => {this.handleResponse();};
-			//this.runInterval = setInterval(() => {this.wwr_run_update();}, this.g_wwr_timer_freq);
 			
 			//Send initial test request.
 			this.g_wwr_req.open("GET","/_/" + ";", true);
-			//this.g_wwr_req.open("GET","http://192.168.2.116:8085/", true);
 			this.g_wwr_req.send(null);
 			
 			//Store the object.
@@ -101,8 +96,9 @@ class ReaperComms
 	{
 		if (!this.running)
 		{
+			this.udpateRecieved = 1;
 			this.running = 1;
-			this.wwr_run_update();
+			this.runInterval = setInterval(() => {this.wwr_run_update();}, this.g_wwr_timer_freq);
 		}
 	}
 	
@@ -114,18 +110,7 @@ class ReaperComms
 		if (this.running)
 		{
 			this.running = 0;
-			
-			if (this.g_wwr_timer)
-			{
-				clearTimeout(this.g_wwr_timer);
-				this.g_wwr_timer = null;
-			}
-			
-			if (this.g_wwr_timer2)
-			{
-				clearTimeout(this.g_wwr_timer2);
-				this.g_wwr_timer2 = null;
-			}
+			clearInterval(this.runInterval);
 		}
 	}
 	
@@ -165,7 +150,7 @@ class ReaperComms
 		//First clean up the command.
 		name = ReaperComms.stripCmd(name);
 		
-		//Next we add if only if it isn't in our command and not an empty command.
+		//Next we add if it's not an empty command.
 		if (name != "" && name != ";")
 			this.g_wwr_req_list += name;
 	}
@@ -179,6 +164,7 @@ class ReaperComms
 	{
 		name = ReaperComms.stripCmd(name);
 		
+		//Next we add if only if it isn't in our command and not an empty command.
 		if (name != "" && name != ";")
 		{
 			var found = 0;
@@ -198,7 +184,7 @@ class ReaperComms
 			
 			if (!found)
 			{
-				this.g_wwr_req_recur.push([name, interval, 0]);//timer]); 
+				this.g_wwr_req_recur.push([name, interval, 0]); 
 			}
 		}
 	}
@@ -653,7 +639,7 @@ class ReaperComms
 	/*  Private Methods  */
 	wwr_run_update()
 	{
-		if (this.running)
+		if (this.running && this.udpateRecieved)
 		{
 			var str = "";
 			var time = Date.now();
@@ -673,15 +659,9 @@ class ReaperComms
 			if (str != "")
 			{
 				this.g_wwr_req.open("GET","/_/" + str, true);
-				if (this.g_wwr_timer2) 
-					clearTimeout(this.g_wwr_timer2);
-				this.g_wwr_timer2 = window.setTimeout(() => {this.reset();}, 3000);
+				this.udpateRecieved = 0;
 				this.g_wwr_req.send(null);
 				this.g_wwr_req_list = "";
-			}
-			else
-			{
-				this.g_wwr_timer = setTimeout(() => {this.wwr_run_update();}, this.g_wwr_timer_freq);
 			}
 		}
 	}
@@ -691,51 +671,15 @@ class ReaperComms
 	{
 		if (this.g_wwr_req.readyState==4) 
 		{
-			if (this.g_wwr_timer2) 
-			{ 
-				clearTimeout(this.g_wwr_timer2); 
-				this.g_wwr_timer2=null; 
-			}
-			
+			this.udpateRecieved = 1;
 			if (this.g_wwr_req.responseText != "") 
 			{
-				this.g_wwr_errcnt=0;
 				this.commandCollection.parseCommands(this.g_wwr_req.responseText);
 				this.observers.notifyListeners(this.immCommandCollection);
+				this.updateReceived = 1;
 			}
-			else if (this.g_wwr_req.getResponseHeader("Server") == null)
-			{
-				if (this.g_wwr_errcnt < 8)
-					this.g_wwr_errcnt++;
-			}
-			if (this.g_wwr_errcnt > 2)
-				this.g_wwr_timer = window.setTimeout(() => {this.wwr_run_update()}, 100<<(this.g_wwr_errcnt-3));
-			else 
-				this.wwr_run_update();
         }
     }
-	
-	reset()
-	{
-		this.g_wwr_timer2=null;
-		if (this.g_wwr_req.readyState!=0 && this.g_wwr_req.readyState!=4) 
-		{
-			if (this.g_wwr_timer)
-			{
-				clearTimeout(this.g_wwr_timer); 
-				this.g_wwr_timer=null; 
-			}
-        
-			this.g_wwr_req.abort();
-			if (this.g_wwr_errcnt < 8) 
-				this.g_wwr_errcnt++;
-
-			if (this.g_wwr_errcnt > 2) 
-				this.g_wwr_timer = window.setTimeout(() => {this.wwr_run_update()}, 100<<(this.g_wwr_errcnt-3));
-			else 
-				this.wwr_run_update();
-		}
-	}
     
 	parseString(response)
 	{
