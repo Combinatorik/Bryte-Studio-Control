@@ -21,6 +21,7 @@ class ReaperComms
 	running;
 	udpateRecieved;
 	g_wwr_req;
+	lastSendTime;
 	
 	//Command storage objects
 	commandCollection;
@@ -30,7 +31,7 @@ class ReaperComms
 	* @param {number} minUpdate is the smallest time, in ms, that ReaperComms allows updates to be requested from Reaper.  Ignored if the object has already been built.
 	* @param {number} autostart determines wether the comms with Reaper should automatically start at the end of initialization or if it will be started manually later.  Ignored if the object has already been built.
 	*/
-	constructor(minUpdate = 100, autostart = 0)
+	constructor(minUpdate = 1000/60, autostart = 0)
 	{
 		//If the instance isn't created, let's build it.
 		if (!ReaperComms.instance)
@@ -96,6 +97,7 @@ class ReaperComms
 	{
 		if (!this.running)
 		{
+			this.lastSendTime = Date.now();
 			this.udpateRecieved = 1;
 			this.running = 1;
 			this.runInterval = setInterval(() => {this.wwr_run_update();}, this.g_wwr_timer_freq);
@@ -639,10 +641,11 @@ class ReaperComms
 	/*  Private Methods  */
 	wwr_run_update()
 	{
-		if (this.running && this.udpateRecieved)
+		var time = Date.now();
+		if (this.running && (this.udpateRecieved || (time - this.lastSendTime) > 3000))
 		{
 			var str = "";
-			var time = Date.now();
+			this.lastSendTime = time;
 			
 			if (this.g_wwr_req_list != "")
 				str = this.g_wwr_req_list;
